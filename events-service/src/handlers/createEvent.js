@@ -6,6 +6,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function createEvent(event, context) {
   const { title } = JSON.parse(event.body);
+  const { email } = event.requestContext.authorizer;
   const now = new Date();
   const endDate = new Date();
   endDate.setHours(now.getHours() + 1);
@@ -15,6 +16,7 @@ async function createEvent(event, context) {
     title,
     eventType: 'DAILY',
     status: 'OPEN',
+    createdBy: email,
     createdAt: now.toISOString(),
     endingAt: endDate.toISOString()
   };
