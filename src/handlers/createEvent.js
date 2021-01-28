@@ -29,7 +29,7 @@ async function createEvent(event, context) {
   }
 
   return {
-    statusCode: 200,
+    statusCode: 201,
     body: JSON.stringify(newEvent),
   };
 }

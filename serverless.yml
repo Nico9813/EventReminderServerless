@@ -38,8 +38,24 @@ functions:
       - http:
           method: GET
           path: /events/{id}
+  addSuscriber:
+    handler: src/handlers/addSuscriber.handler
+    events:
+      - http:
+          method: POST
+          path: /events/{id}/suscribers
+  removeSuscriber:
+    handler: src/handlers/removeSuscriber.handler
+    events:
+      - http:
+          method: DELETE
+          path: /events/{id}/suscribers
+
+
 
 custom:
   EventsTable:
     name: !Ref EventsTable
     arn: !GetAtt EventsTable.Arn
+  bundle:
+    linting: false
