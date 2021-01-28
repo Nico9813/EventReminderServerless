@@ -12,6 +12,8 @@ provider:
   stage: ${opt:stage, 'dev'}
   environment:
     EVENT_TABLE_NAME: ${self:custom.EventsTable.name}
+  iamRoleStatements:
+    - ${file(iam/EventsTableIAM.yml):EventsTableIAM}
 
 resources:
   Resources:
@@ -35,7 +37,7 @@ functions:
     events:
       - http:
           method: GET
-          path: /events
+          path: /events/{id}
 
 custom:
   EventsTable:

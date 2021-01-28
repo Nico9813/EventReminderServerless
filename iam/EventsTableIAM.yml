@@ -1,0 +1,11 @@
+EventsTableIAM:
+  Effect: Allow
+  Action:
+    - dynamodb:PutItem
+    - dynamodb:Scan
+    - dynamodb:GetItem
+    - dynamodb:UpdateItem
+    - dynamodb:Query
+  Resource:
+    - ${self:custom.EventsTable.arn}
+    - !Join ['/', [ '${self:custom.EventsTable.arn}', 'index', 'statusAndEndDate' ]]

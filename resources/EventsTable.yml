@@ -8,6 +8,8 @@ EventsTable:
         AttributeType: S
       - AttributeName: status
         AttributeType: S
+      - AttributeName: eventType
+        AttributeType: S
       - AttributeName: endingAt
         AttributeType: S
     KeySchema:
