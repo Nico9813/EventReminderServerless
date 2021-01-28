@@ -6,9 +6,13 @@ EventsTable:
     AttributeDefinitions:
       - AttributeName: id
         AttributeType: S
+      - AttributeName: title
+        AttributeType: S
       - AttributeName: status
         AttributeType: S
       - AttributeName: eventType
+        AttributeType: S
+      - AttributeName: createdAt
         AttributeType: S
       - AttributeName: endingAt
         AttributeType: S
