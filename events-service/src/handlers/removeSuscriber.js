@@ -6,7 +6,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function removeSuscriber(event, context) {
     const { id } = event.pathParameters;
-    const { email } = JSON.parse(event.body);
+    const { email } = event.requestContext.authorizer;
 
     const params = {
         TableName: process.env.EVENTS_TABLE_NAME,
