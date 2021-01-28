@@ -1,4 +1,3 @@
-
 service:
   name: auth-service
 
@@ -16,21 +15,6 @@ functions:
   auth:
     handler: src/handlers/auth.handler
     cors: true
-  publicEndpoint:
-    handler: src/handlers/public.handler
-    events:
-      - http:
-          path: public
-          method: POST
-          cors: true
-  privateEndpoint:
-    handler: src/handlers/private.handler
-    events:
-      - http:
-          path: private
-          method: POST
-          authorizer: auth
-          cors: true
 
 resources:
   Resources:

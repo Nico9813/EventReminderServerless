@@ -33,24 +33,28 @@ functions:
       - http:
           method: GET
           path: /events
+          authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
   getEventById:
     handler: src/handlers/getEventById.handler
     events:
       - http:
           method: GET
           path: /events/{id}
+          authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
   addSuscriber:
     handler: src/handlers/addSuscriber.handler
     events:
       - http:
           method: POST
           path: /events/{id}/suscribers
+          authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
   removeSuscriber:
     handler: src/handlers/removeSuscriber.handler
     events:
       - http:
           method: DELETE
           path: /events/{id}/suscribers
+          authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
 
 
 
