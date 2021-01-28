@@ -11,7 +11,7 @@ provider:
   memorySize: 256
   stage: ${opt:stage, 'dev'}
   environment:
-    EVENT_TABLE_NAME: ${self:custom.EventsTable.name}
+    EVENTS_TABLE_NAME: ${self:custom.EventsTable.name}
   iamRoleStatements:
     - ${file(iam/EventsTableIAM.yml):EventsTableIAM}
 

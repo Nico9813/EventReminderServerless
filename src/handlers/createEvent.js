@@ -1,4 +1,8 @@
 import { v4 as uuid } from 'uuid';
+import createError from 'http-errors';
+import AWS from 'aws-sdk';
+
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function createEvent(event, context) {
   const { title } = JSON.parse(event.body);
@@ -14,6 +18,15 @@ async function createEvent(event, context) {
     createdAt: now.toISOString(),
     endingAt: endDate.toISOString()
   };
+
+  try {
+    await dynamodb.put({
+      TableName: process.env.EVENTS_TABLE_NAME,
+      Item: newEvent,
+    }).promise();
+  } catch (error) {
+    throw new createError.InternalServerError(error);
+  }
 
   return {
     statusCode: 200,
