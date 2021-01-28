@@ -10,11 +10,34 @@ provider:
   runtime: nodejs12.x
   memorySize: 256
   stage: ${opt:stage, 'dev'}
+  environment:
+    EVENT_TABLE_NAME: ${self:custom.EventsTable.name}
+
+resources:
+  Resources:
+    EventsTable: ${file(resources/EventsTable.yml):EventsTable}
   
 functions:
-  hello:
-    handler: src/handlers/hello.handler
+  createEvent:
+    handler: src/handlers/createEvent.handler
+    events:
+      - http:
+          method: POST
+          path: /events
+  getEvents:
+    handler: src/handlers/getEvents.handler
     events:
       - http:
           method: GET
-          path: /hello
+          path: /events
+  getEventById:
+    handler: src/handlers/getEventById.handler
+    events:
+      - http:
+          method: GET
+          path: /events
+
+custom:
+  EventsTable:
+    name: !Ref EventsTable
+    arn: !GetAtt EventsTable.Arn
