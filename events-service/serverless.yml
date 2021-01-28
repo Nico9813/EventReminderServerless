@@ -26,6 +26,7 @@ functions:
       - http:
           method: POST
           path: /events
+          authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
   getEvents:
     handler: src/handlers/getEvents.handler
     events:
