@@ -18,9 +18,11 @@ EventsTable:
       - AttributeName: id
         KeyType: HASH
     GlobalSecondaryIndexes:
-      - IndexName: statusIndex
+      - IndexName: statusAndNextTime
         KeySchema:
           - AttributeName: status
             KeyType: HASH
+          - AttributeName: nextTime
+            KeyType: RANGE
         Projection:
           ProjectionType: ALL

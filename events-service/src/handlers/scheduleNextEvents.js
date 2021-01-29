@@ -3,12 +3,13 @@ import AWS from 'aws-sdk';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-async function getPastEvents(){
+async function getOpenEvents(){
     const params = {
         TableName: process.env.EVENTS_TABLE_NAME,
-        IndexName: 'statusIndex',
-        KeyConditionExpression: '#status = :status',
+        IndexName: 'statusAndNextTime',
+        KeyConditionExpression: '#status = :status AND nextTime >= :now',
         ExpressionAttributeValues: {
+            ':now': new Date().toISOString(),
             ':status': 'OPEN'
         },
         ExpressionAttributeNames: {
@@ -69,7 +70,7 @@ async function reScheduleEvent(event){
 
 async function scheduleNextEvents(event, context) {
     try {
-        const pastEvents = await getPastEvents()
+        const pastEvents = await getOpenEvents()
         const reSchedulePromises = pastEvents.map(event => reScheduleEvent(event))
         await Promise.all(reSchedulePromises)
         return { reScheduleEvents: reSchedulePromises.length}

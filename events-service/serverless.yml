@@ -11,8 +11,10 @@ provider:
   stage: ${opt:stage, 'dev'}
   environment:
     EVENTS_TABLE_NAME: ${self:custom.EventsTable.name}
+    MAIL_QUEUE_URL: ${self:custom.MailQueue.url}
   iamRoleStatements:
     - ${file(iam/EventsTableIAM.yml):EventsTableIAM}
+    - ${file(iam/MailQueueIAM.yml):MailQueueIAM}
   apiGateway:
     shouldStartNameWithService: true
   lambdaHashingVersion: "20201221"
@@ -66,12 +68,17 @@ functions:
           authorizer: ${self:custom.authorizer}
   scheduleNextEvents:
     handler: src/handlers/scheduleNextEvents.handler
+  notifyEvents:
+    handler: src/handlers/notifyEvents.handler
 
 
 custom:
   EventsTable:
     name: !Ref EventsTable
     arn: !GetAtt EventsTable.Arn
+  MailQueue:
+    arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:MailQueue-dev
+    url: https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/MailQueue-dev
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
   bundle:
     linting: false
