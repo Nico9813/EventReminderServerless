@@ -26,35 +26,42 @@ functions:
       - http:
           method: POST
           path: /events
-          authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
+          authorizer: ${self:custom.authorizer}
   getEvents:
     handler: src/handlers/getEvents.handler
     events:
       - http:
           method: GET
           path: /events
-          authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
+          authorizer: ${self:custom.authorizer}
+  deleteEvent:
+    handler: src/handlers/deleteEvent.handler
+    events:
+      - http:
+          method: DELETE
+          path: /events/{id}
+          authorizer: ${self:custom.authorizer}
   getEventById:
     handler: src/handlers/getEventById.handler
     events:
       - http:
           method: GET
           path: /events/{id}
-          authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
+          authorizer: ${self:custom.authorizer}
   addSuscriber:
     handler: src/handlers/addSuscriber.handler
     events:
       - http:
           method: POST
           path: /events/{id}/suscribers
-          authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
+          authorizer: ${self:custom.authorizer}
   removeSuscriber:
     handler: src/handlers/removeSuscriber.handler
     events:
       - http:
           method: DELETE
           path: /events/{id}/suscribers
-          authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
+          authorizer: ${self:custom.authorizer}
 
 
 
@@ -62,5 +69,6 @@ custom:
   EventsTable:
     name: !Ref EventsTable
     arn: !GetAtt EventsTable.Arn
+  authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
   bundle:
     linting: false

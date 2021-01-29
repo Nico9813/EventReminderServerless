@@ -1,6 +1,5 @@
 import createError from 'http-errors';
 import AWS from 'aws-sdk';
-import { getEvent } from './getEventById';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 

@@ -6,6 +6,7 @@ EventsTableIAM:
     - dynamodb:GetItem
     - dynamodb:UpdateItem
     - dynamodb:Query
+    - dynamodb:DeleteItem
   Resource:
     - ${self:custom.EventsTable.arn}
     - !Join ['/', [ '${self:custom.EventsTable.arn}', 'index', 'statusAndEndDate' ]]

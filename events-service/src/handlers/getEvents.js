@@ -3,7 +3,7 @@ import createError from 'http-errors';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-async function getEvent(event, context) {
+async function getEvents(event, context) {
   const { status } = event.queryStringParameters;
   let events;
 
@@ -32,6 +32,6 @@ async function getEvent(event, context) {
   };
 }
 
-export const handler = getEvent;
+export const handler = getEvents;
 
 
