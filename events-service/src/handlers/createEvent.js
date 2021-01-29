@@ -5,7 +5,7 @@ import AWS from 'aws-sdk';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function createEvent(event, context) {
-  const { title } = JSON.parse(event.body);
+  const { title, eventType, firstTime } = JSON.parse(event.body);
   const { email } = event.requestContext.authorizer;
   const now = new Date();
   const endDate = new Date();
@@ -14,10 +14,10 @@ async function createEvent(event, context) {
   const newEvent = {
     id: uuid(),
     title,
-    eventType: 'DAILY',
+    eventType,
     status: 'OPEN',
     createdBy: email,
-    createdAt: now.toISOString(),
+    nextTime: firstTime, 
     endingAt: endDate.toISOString()
   };
 

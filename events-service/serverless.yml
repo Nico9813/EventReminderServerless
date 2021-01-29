@@ -1,5 +1,4 @@
-service:
-  name: ServerlessAPP
+service: ServerlessAPP
 
 plugins:
   - serverless-bundle
@@ -14,6 +13,9 @@ provider:
     EVENTS_TABLE_NAME: ${self:custom.EventsTable.name}
   iamRoleStatements:
     - ${file(iam/EventsTableIAM.yml):EventsTableIAM}
+  apiGateway:
+    shouldStartNameWithService: true
+  lambdaHashingVersion: "20201221"
 
 resources:
   Resources:
@@ -62,7 +64,8 @@ functions:
           method: DELETE
           path: /events/{id}/suscribers
           authorizer: ${self:custom.authorizer}
-
+  scheduleNextEvents:
+    handler: src/handlers/scheduleNextEvents.handler
 
 
 custom:

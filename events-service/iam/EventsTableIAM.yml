@@ -9,4 +9,4 @@ EventsTableIAM:
     - dynamodb:DeleteItem
   Resource:
     - ${self:custom.EventsTable.arn}
-    - !Join ['/', [ '${self:custom.EventsTable.arn}', 'index', 'statusAndEndDate' ]]
+    - !Join ['/', [ '${self:custom.EventsTable.arn}', 'index', 'statusIndex' ]]

@@ -9,7 +9,7 @@ async function getEvents(event, context) {
 
   const params = {
     TableName: process.env.EVENTS_TABLE_NAME,
-    IndexName: 'statusAndEndDate',
+    IndexName: 'statusIndex',
     KeyConditionExpression: '#status = :status',
     ExpressionAttributeValues: {
       ':status': status,
