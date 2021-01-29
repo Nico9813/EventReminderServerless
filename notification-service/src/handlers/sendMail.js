@@ -3,11 +3,11 @@ import AWS from 'aws-sdk';
 const ses = new AWS.SES();
 
 async function sendMail(event, context) {
-  //const record = event.Records[0];
-  //console.log('record processing', record);
+  const record = event.Records[0];
+  console.log('record processing', record);
 
-  //const email = JSON.parse(record.body);
-  //const { subject, body, recipient } = email;
+  const email = JSON.parse(record.body);
+  const { title, nextTime } = email 
 
   const params = {
     Source: 'nico.gomez.mbc@gmail.com',
@@ -17,11 +17,11 @@ async function sendMail(event, context) {
     Message: {
       Body: {
         Text: {
-          Data: "Prueba",
+          Data: `Your event ${title} is about to start! This event was scheduled to ${nextTime}, hurry up!`,
         },
       },
       Subject: {
-        Data: "Prueba mas larga",
+        Data: `Event Notification (${title})`,
       },
     },
   };
