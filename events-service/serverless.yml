@@ -12,9 +12,11 @@ provider:
   environment:
     EVENTS_TABLE_NAME: ${self:custom.EventsTable.name}
     MAIL_QUEUE_URL: ${self:custom.MailQueue.url}
+    EVENTS_BUCKET_NAME: ${self:custom.EventsBucket.name}
   iamRoleStatements:
     - ${file(iam/EventsTableIAM.yml):EventsTableIAM}
     - ${file(iam/MailQueueIAM.yml):MailQueueIAM}
+    - ${file(iam/EventsBucketIAM.yml):EventsBucketIAM}
   apiGateway:
     shouldStartNameWithService: true
   lambdaHashingVersion: "20201221"
@@ -22,6 +24,8 @@ provider:
 resources:
   Resources:
     EventsTable: ${file(resources/EventsTable.yml):EventsTable}
+    EventsBucket: ${file(resources/EventsBucket.yml):EventsBucket}
+    EventsBucketPolicy: ${file(resources/EventsBucket.yml):EventsBucketPolicy}
   
 functions:
   createEvent:
@@ -31,6 +35,7 @@ functions:
           method: POST
           path: /events
           authorizer: ${self:custom.authorizer}
+
   getEvents:
     handler: src/handlers/getEvents.handler
     events:
@@ -38,6 +43,7 @@ functions:
           method: GET
           path: /events
           authorizer: ${self:custom.authorizer}
+
   deleteEvent:
     handler: src/handlers/deleteEvent.handler
     events:
@@ -45,6 +51,7 @@ functions:
           method: DELETE
           path: /events/{id}
           authorizer: ${self:custom.authorizer}
+
   getEventById:
     handler: src/handlers/getEventById.handler
     events:
@@ -52,6 +59,7 @@ functions:
           method: GET
           path: /events/{id}
           authorizer: ${self:custom.authorizer}
+
   addSuscriber:
     handler: src/handlers/addSuscriber.handler
     events:
@@ -59,6 +67,7 @@ functions:
           method: POST
           path: /events/{id}/suscribers
           authorizer: ${self:custom.authorizer}
+
   removeSuscriber:
     handler: src/handlers/removeSuscriber.handler
     events:
@@ -66,8 +75,18 @@ functions:
           method: DELETE
           path: /events/{id}/suscribers
           authorizer: ${self:custom.authorizer}
+
+  uploadEventPicture:
+    handler: src/handlers/uploadEventPicture.handler
+    events:
+      - http:
+          method: PATCH
+          path: /events/{id}/picture
+          authorizer: ${self:custom.authorizer}
+
   scheduleNextEvents:
     handler: src/handlers/scheduleNextEvents.handler
+    
   notifyEvents:
     handler: src/handlers/notifyEvents.handler
 
@@ -79,6 +98,8 @@ custom:
   MailQueue:
     arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:MailQueue-dev
     url: https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/MailQueue-dev
+  EventsBucket:
+    name: events-bucket-s5ds4f-${self:provider.stage}
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:auth-service-dev-auth
   bundle:
     linting: false
