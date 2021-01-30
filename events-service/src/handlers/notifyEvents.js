@@ -26,21 +26,30 @@ async function getOpenEvents() {
     return result.Items;
 }
 
-async function sendNotification(event){
-    return await sqs.sendMessage({
-        QueueUrl: process.env.MAIL_QUEUE_URL,
-        MessageBody: JSON.stringify(event)
-    }).promise()
+function sendNotification(event){
+
+    const { suscribers = [], title, nextTime } = event
+
+    console.log(title, suscribers.values, nextTime)
+
+    return sqs.sendMessage({
+            QueueUrl: process.env.MAIL_QUEUE_URL,
+            MessageBody: JSON.stringify({
+                subject: `Event Notification (${title})`,
+                recipient: suscribers,
+                body: `Your event ${title} is about to start! This event was scheduled to ${nextTime}, HURRY UP!`
+            })
+        }).promise()
 }
 
 async function notifyEvents(event, context) {
     try {
         const nearEvents = await getOpenEvents()
         console.log(nearEvents)
-        const nearEventsPromises = nearEvents.map( event => sendNotification(event))
+        const nearEventsPromises = nearEvents.map(event => sendNotification(event))
         await Promise.all(nearEventsPromises)
         return {
-            eventsNotified: nearEvents.length,
+            usersNotified: nearEventsPromises.length,
         };
     } catch (error) {
         console.log(error)

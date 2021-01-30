@@ -9,6 +9,8 @@ provider:
   runtime: nodejs12.x
   memorySize: 256
   stage: ${opt:stage, 'dev'}
+  environment:
+    SOURCE_MAIL: "nico.gomez.mbc@gmail.com"
   lambdaHashingVersion: "20201221"
   iamRoleStatements:
     - ${file(iam/SendMailIAM.yml):SendMailIAM}

@@ -4,27 +4,29 @@ const ses = new AWS.SES();
 
 async function sendMail(event, context) {
   const record = event.Records[0];
-  console.log('record processing', record);
+  console.log('record processingg', record.body);
 
   const email = JSON.parse(record.body);
-  const { title, nextTime } = email 
+  
+  const { subject, recipient, body } = email 
 
   const params = {
-    Source: 'nico.gomez.mbc@gmail.com',
+    Source: "nico.gomez.mbc@gmail.com",
     Destination: {
-      ToAddresses: ["nico.gomez.mbc@gmail.com"],
+      ToAddresses: recipient,    
     },
     Message: {
       Body: {
         Text: {
-          Data: `Your event ${title} is about to start! This event was scheduled to ${nextTime}, hurry up!`,
+          Data: body,
         },
       },
       Subject: {
-        Data: `Event Notification (${title})`,
+        Data: subject,
       },
     },
   };
+
 
   try {
     const result = await ses.sendEmail(params).promise();
