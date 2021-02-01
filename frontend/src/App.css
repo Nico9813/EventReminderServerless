@@ -1,0 +1,113 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #282c34;
+  width: 100vw;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.NavBar {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 0px 10px 0px 10px;
+  background-color: orange;
+}
+
+h1{
+  color:white;
+  text-align: start;
+  margin-left: 5%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.Container {
+  height: 80vh;
+  width: 90%;
+  margin: auto;
+  border-radius: 8px;
+  border: solid 1px #051431;
+  background-color: #21242b;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.Container p{
+  color: white;
+  margin: auto;
+}
+
+.BarraBusqueda {
+  height: 90%;
+  width: 90%;
+  margin:  10px auto 10px auto;
+  padding: 10px 3px 10px 3px;
+  border-radius: 8px;
+  color: black;
+  border: solid 1px #051431;
+}
+
+.Evento {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin:10px;
+  border-radius: 8px;
+  border: solid 1px #051431;
+  padding: 10px;
+  width: 300px;
+  height: 400px;
+  background-color: rgb(49, 49, 49);
+  color:white
+}
+
+.EventoImgContainer{
+  height: 60%;
+  width: 90%;
+  margin: auto;
+  border-radius: 5px;
+  border: solid white 1px;
+  background-color: #282c34;
+}
+
+.EventoImg{
+  max-height: 100%;
+  margin: auto;
+  max-width: 100%;
+}
+
+.DetallesContainer{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin:10px;
+}
+
+.DetallesRow{
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+}
+
+.DetallesRow p,h3{
+  padding: 0px;
+  margin: 0px;
+  word-wrap: break-word;
+}
+
+.Button{
+  min-width: 100px;
+  border-radius: 8px;
+  border: 0px;
+  cursor: pointer;
+}
+
+.Eliminar{
+  background-color: rgb(180, 0, 0);
+  color: white;
+}
