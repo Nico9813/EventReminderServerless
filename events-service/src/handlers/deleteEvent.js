@@ -7,7 +7,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 async function deleteEvent(event, context) {
     const { id } = event.pathParameters;
     const { email } = event.requestContext.authorizer;
-
+    
     const _event = await getEvent(id);
 
     if(_event.createdBy !== email){
@@ -25,6 +25,10 @@ async function deleteEvent(event, context) {
 
     return {
         statusCode: 200,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true,
+        },
         body: JSON.stringify(_event),
     };
 }

@@ -11,8 +11,8 @@ export async function setEventPicture(id, pictureUrl){
             ':pictureUrl':pictureUrl
         },
         ReturnValues: "ALL_NEW"
-    }
+    };
 
-    const result = await dynamodb.update(params).promise()
+    const result = await dynamodb.update(params).promise();
     return result.Attributes;
 }

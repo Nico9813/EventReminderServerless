@@ -26,7 +26,16 @@ resources:
     EventsTable: ${file(resources/EventsTable.yml):EventsTable}
     EventsBucket: ${file(resources/EventsBucket.yml):EventsBucket}
     EventsBucketPolicy: ${file(resources/EventsBucket.yml):EventsBucketPolicy}
-  
+    GatewayResponseDefault4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+
 functions:
   createEvent:
     handler: src/handlers/createEvent.handler
@@ -34,6 +43,7 @@ functions:
       - http:
           method: POST
           path: /events
+          cors: true
           authorizer: ${self:custom.authorizer}
 
   getEvents:
@@ -42,6 +52,7 @@ functions:
       - http:
           method: GET
           path: /events
+          cors: true
           authorizer: ${self:custom.authorizer}
 
   deleteEvent:
@@ -50,6 +61,7 @@ functions:
       - http:
           method: DELETE
           path: /events/{id}
+          cors: true
           authorizer: ${self:custom.authorizer}
 
   getEventById:
@@ -58,6 +70,7 @@ functions:
       - http:
           method: GET
           path: /events/{id}
+          cors: true
           authorizer: ${self:custom.authorizer}
 
   addSuscriber:
@@ -66,6 +79,7 @@ functions:
       - http:
           method: POST
           path: /events/{id}/suscribers
+          cors: true
           authorizer: ${self:custom.authorizer}
 
   removeSuscriber:
@@ -74,6 +88,7 @@ functions:
       - http:
           method: DELETE
           path: /events/{id}/suscribers
+          cors: true
           authorizer: ${self:custom.authorizer}
 
   uploadEventPicture:
@@ -82,6 +97,7 @@ functions:
       - http:
           method: PATCH
           path: /events/{id}/picture
+          cors: true
           authorizer: ${self:custom.authorizer}
 
   scheduleNextEvents:

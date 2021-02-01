@@ -12,14 +12,20 @@ async function uploadPictureToS3(key, body){
         Body: body,
         ContentEncoding: 'base64',
         ContentType: 'image/jpeg'
-    }).promise()
+    }).promise();
     return result;
 }
 
 async function uploadEventPicture(event, context) {
 
     const { id } = event.pathParameters;
-    const _event = await getEvent(id)
+    const _event = await getEvent(id);
+    const { email } = event.requestContext.authorizer;
+
+    if (_event.createdBy !== email) {
+        throw new createError.Forbidden(`You [${email}] are not the owner of this event [${_event.createdBy}]`);
+    }
+
     const base64 = event.body.replace(/^data:image\/\w+;base64,/, '');
     const buffer = Buffer.from(base64, 'base64');
 
@@ -27,14 +33,18 @@ async function uploadEventPicture(event, context) {
 
     try {
         const pictureUrl = await uploadPictureToS3(_event.id + '.jpg', buffer);
-        updatedEvent = await setEventPicture(id, pictureUrl.Location)
+        updatedEvent = await setEventPicture(id, pictureUrl.Location);
     } catch (error) {
-        console.log(error)
-        throw new createError.InternalServerError(error)
-    }   
+        console.log(error);
+        throw new createError.InternalServerError(error);
+    }
 
     return {
         statusCode: 200,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Credentials': true,
+        },
         body: JSON.stringify(updatedEvent),
     };
 }
