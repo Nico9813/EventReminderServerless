@@ -16,12 +16,13 @@
   background-color: orange;
 }
 
-h1{
-  color:white;
-  text-align: start;
-  margin-left: 5%;
-  margin-top: 10px;
-  margin-bottom: 10px;
+.Titulo{
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  width: 90%;
+  height: auto;
 }
 
 .Container {
@@ -34,6 +35,24 @@ h1{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.FormContainer{
+  background-color: white;
+  padding: 30px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.FormContainer form{
+  display: flex;
+  flex-direction: column;
+}
+
+.FormContainer input{
+  margin: 10px;
 }
 
 .Container p{
