@@ -7,6 +7,8 @@ Si bien usa varias herramientas distintas, todas estan incluidas dentro del [fre
 
 # Diagrama de arquitectura
 
+Utilizando CloudFormation AWS nos permitio definir la arquitectura del proyecto como codigo (infrastructure as code) definiendo en el mismo todos los recursos que utilizaremos y sus caracteristicas.
+
 <img src="https://github.com/Nico9813/ServerlessAPP/blob/main/AWSarquitectura.png?raw=true"/>
 
 ## Microservicios
